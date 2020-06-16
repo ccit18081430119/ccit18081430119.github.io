@@ -1,0 +1,290 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>附加功能（图片、音乐、评论） - Hexo</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="图片功能在github中新建一个仓库cdn
+在本地新建一个文件夹放入想要上传的图片
+右键打开git.bash
+在命令框输入git add .
+​                       git ,"> 
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="Hexo" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Hexo</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://yoursite.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">附加功能（图片、音乐、评论）</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">附加功能（图片、音乐、评论）</h1>
+        <div class="stuff">
+            <span>四月 09, 2020</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <h1 id=""><a href="#" class="headerlink" title=""></a></h1><h2 id="图片功能"><a href="#图片功能" class="headerlink" title="图片功能"></a>图片功能</h2><p>在github中新建一个仓库cdn</p>
+<p>在本地新建一个文件夹放入想要上传的图片</p>
+<p>右键打开git.bash</p>
+<p>在命令框输入git add .</p>
+<p>​                       git commited “第一次发布”</p>
+<p>​                       git push</p>
+<p>在cdn仓库中发布release  版本1.0</p>
+<p>利用js即可访问图片网址</p>
+<p>可参照视频<a href="https://www.bilibili.com/video/BV1rt411a7pf" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1rt411a7pf</a></p>
+<h2 id="音乐功能"><a href="#音乐功能" class="headerlink" title="音乐功能"></a>音乐功能</h2><p><strong>第一步：</strong></p>
+<p>　　打开网易云音乐的官网：<a href="https://music.163.com/" target="_blank" rel="noopener">https://music.163.com/</a></p>
+<p><strong>第二步：</strong></p>
+<p>　　搜索音乐。</p>
+<p><strong>第三步</strong></p>
+<p>​       点击生成外部链接</p>
+<p><strong>第四步</strong></p>
+<p>​       在config文件中输入代码即可</p>
+<h6 id="网易云音乐插件"><a href="#网易云音乐插件" class="headerlink" title="网易云音乐插件"></a>网易云音乐插件</h6><p>  music:<br>  enable: true<br>  #id: 539619640  # 网易云分享的ID<br>  autoplay: true  # 是否开启自动播放</p>
+<h2 id="评论功能"><a href="#评论功能" class="headerlink" title="评论功能"></a>评论功能</h2><p>1.首先需要到GitHub上去新建一个仓库用于存放评论的内容。</p>
+<p>2.在设置中打开isue功能。</p>
+<p>3.需要注册一个Github Application</p>
+<p>4.如上步骤完成之后，接下来你就会体验到Gitralk 的方便之处：</p>
+<p>只需要将如下代码引入你想添加评论的 html 或者 jsp 页面中就可以使用了</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;-- 引入 --&gt;</span><br><span class="line">&lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"</span>&gt;</span><br><span class="line">  &lt;script src=<span class="string">"https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"</span>&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;-- 添加一个容器--&gt;</span><br><span class="line">&lt;div id=<span class="string">"gitalk-container"</span>&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;-- 生成 gitalk 插件--&gt;</span><br><span class="line"><span class="keyword">var</span> gitalk = <span class="keyword">new</span> Gitalk(&#123;</span><br><span class="line">  clientID: <span class="string">'56f73fbc5e79a466ea62'</span>, <span class="comment">//Client ID</span></span><br><span class="line"></span><br><span class="line">  clientSecret: <span class="string">'26d8eb4f3b0de9ce02382103ffc32ba34c4671f4'</span>, <span class="comment">//Client Secret</span></span><br><span class="line"></span><br><span class="line">  repo: <span class="string">'blogtalk'</span>,<span class="comment">//仓库名称</span></span><br><span class="line">  owner: <span class="string">'smfx1314'</span>,<span class="comment">//仓库拥有者</span></span><br><span class="line">  admin: [<span class="string">'smfx1314'</span>],</span><br><span class="line">  id: location.href,      <span class="comment">// Ensure uniqueness and length less than 50</span></span><br><span class="line">  distractionFreeMode: <span class="literal">false</span>  <span class="comment">// Facebook-like distraction free mode</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">gitalk.render(<span class="string">'gitalk-container'</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="设置"><a href="#设置" class="headerlink" title="设置"></a>设置</h4><ul>
+<li><p><strong>clientID</strong> <code>String</code></p>
+<p><strong>必须</strong>. GitHub Application Client ID.</p>
+</li>
+<li><p><strong>clientSecret</strong> <code>String</code></p>
+<p><strong>必须</strong>. GitHub Application Client Secret.</p>
+</li>
+<li><p><strong>repo</strong> <code>String</code></p>
+<p><strong>必须</strong>. GitHub repository.</p>
+</li>
+<li><p><strong>owner</strong> <code>String</code></p>
+<p><strong>必须</strong>. GitHub repository 所有者，可以是个人或者组织。</p>
+</li>
+<li><p><strong>admin</strong> <code>Array</code></p>
+<p><strong>必须</strong>. GitHub repository 的所有者和合作者 (对这个 repository 有写权限的用户)。</p>
+</li>
+<li><p><strong>id</strong> <code>String</code></p>
+<p>Default: <code>location.href</code>.</p>
+<p>页面的唯一标识。长度必须小于50。</p>
+</li>
+<li><p><strong>number</strong> <code>Number</code></p>
+<p>Default: <code>-1</code>.</p>
+<p>页面的 issue ID 标识，若未定义<code>number</code>属性则会使用<code>id</code>进行定位。</p>
+</li>
+<li><p><strong>labels</strong> <code>Array</code></p>
+<p>Default: <code>[&#39;Gitalk&#39;]</code>.</p>
+<p>GitHub issue 的标签。</p>
+</li>
+<li><p><strong>title</strong> <code>String</code></p>
+<p>Default: <code>document.title</code>.</p>
+<p>GitHub issue 的标题。</p>
+</li>
+<li><p><strong>body</strong> <code>String</code></p>
+<p>Default: <code>location.href + header.meta[description]</code>.</p>
+<p>GitHub issue 的内容。</p>
+</li>
+<li><p><strong>language</strong> <code>String</code></p>
+<p>Default: <code>navigator.language || navigator.userLanguage</code>.</p>
+<p>设置语言，支持 [en, zh-CN, zh-TW]。</p>
+</li>
+<li><p><strong>perPage</strong> <code>Number</code></p>
+<p>Default: <code>10</code>.</p>
+<p>每次加载的数据大小，最多 100。</p>
+</li>
+<li><p><strong>distractionFreeMode</strong> <code>Boolean</code></p>
+<p>Default: false。</p>
+<p>类似Facebook评论框的全屏遮罩效果.</p>
+</li>
+<li><p><strong>pagerDirection</strong> <code>String</code></p>
+<p>Default: ‘last’</p>
+<p>评论排序方式， <code>last</code>为按评论创建时间倒叙，<code>first</code>为按创建时间正序。</p>
+</li>
+<li><p><strong>createIssueManually</strong> <code>Boolean</code></p>
+<p>Default: <code>false</code>.</p>
+<p>如果当前页面没有相应的 isssue 且登录的用户属于 admin，则会自动创建 issue。如果设置为 <code>true</code>，则显示一个初始化页面，创建 issue 需要点击 <code>init</code> 按钮。</p>
+</li>
+<li><p><strong>proxy</strong> <code>String</code></p>
+<p>Default: <code>https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token</code>.</p>
+<p>GitHub oauth 请求到反向代理，为了支持 CORS。 <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2Fisaacs%2Fgithub%2Fissues%2F330" target="_blank" rel="noopener">为什么要这样?</a></p>
+</li>
+<li><p><strong>flipMoveOptions</strong> <code>Object</code></p>
+<p>Default:</p>
+</li>
+</ul>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  staggerDelayBy: 150,</span><br><span class="line">  appearAnimation: &#39;accordionVertical&#39;,</span><br><span class="line">  enterAnimation: &#39;accordionVertical&#39;,</span><br><span class="line">  leaveAnimation: &#39;accordionVertical&#39;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  评论列表的动画。 <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2Fjoshwcomeau%2Freact-flip-move%2Fblob%2Fmaster%2Fdocumentation%2Fenter_leave_animations.md" target="_blank" rel="noopener">参考</a></p>
+<ul>
+<li><p><strong>enableHotKey</strong> <code>Boolean</code></p>
+<p>Default: <code>true</code>.</p>
+<p>启用快捷键(cmd|ctrl + enter) 提交评论.</p>
+</li>
+</ul>
+<h4 id="注意：第一次进入时评论模块加载不出来，需要注册Github-Application的账号登录评论模块后刷新页面，就可以正常使用了。"><a href="#注意：第一次进入时评论模块加载不出来，需要注册Github-Application的账号登录评论模块后刷新页面，就可以正常使用了。" class="headerlink" title="注意：第一次进入时评论模块加载不出来，需要注册Github Application的账号登录评论模块后刷新页面，就可以正常使用了。"></a>注意：第一次进入时评论模块加载不出来，需要注册Github Application的账号登录评论模块后刷新页面，就可以正常使用了。</h4>
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://link.hhtjim.com/163/1409249540.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://link.hhtjim.com/163/1350336761.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://link.hhtjim.com/163/545825923.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://link.hhtjim.com/163/539619640.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='false'
+        data-ci='c3450cd920580cc7819f'
+        data-cs='111992513f76f2b4471875b1d04d919f59be5009'
+        data-r='https://mitsuha1233.github.io/'
+        data-o='Mitsuha1233'
+        data-a='Mitsuha1233'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#"><span class="toc-number">1.</span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#图片功能"><span class="toc-number">1.1.</span> <span class="toc-text">图片功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#音乐功能"><span class="toc-number">1.2.</span> <span class="toc-text">音乐功能</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#网易云音乐插件"><span class="toc-number">1.2.0.0.0.1.</span> <span class="toc-text">网易云音乐插件</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#评论功能"><span class="toc-number">1.3.</span> <span class="toc-text">评论功能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#设置"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">设置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#注意：第一次进入时评论模块加载不出来，需要注册Github-Application的账号登录评论模块后刷新页面，就可以正常使用了。"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">注意：第一次进入时评论模块加载不出来，需要注册Github Application的账号登录评论模块后刷新页面，就可以正常使用了。</span></a></li></ol></li></ol></li></ol></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</html>

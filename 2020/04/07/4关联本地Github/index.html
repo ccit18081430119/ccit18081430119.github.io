@@ -5,12 +5,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Archive: 2020</title>
+    <title>Hexo与Github关联 - Hexo</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="Fechin,"> 
-    
+    <meta name="description" content="1.绑定Hexo和Github打开blog文件夹中的_config.yml文件
+将最后一部分改为
+deploy:          type:  git          repo:  git@gi,"> 
     <meta name="author" content="John Doe"> 
     <link rel="alternative" href="atom.xml" title="Hexo" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -35,69 +37,101 @@
 <body class="loading">
     <span id="config-title" style="display:none">Hexo</span>
     <div id="loader"></div>
-    <div id="single" class="page">
-    <div id="top">
-        <a class="iconfont icon-left image-icon" href="javascript:history.back()"></a>
-    </div>
-    <div class="section">
-        <div class="article">
-            <div class="main">
-                <div class="content">
-                    <div class="timeline">
-                      <h2 class="timeline-title">归档: 7篇</h2><hr>
-                      
-                      
-                        
-                          <h3 class="timeline-subtitle">2020</h3>
-                        
-                        <div class="timeline-item">
-                          <time>2020-04-15</time>
-                          <a target="_self" href="/2020/04/15/1%E6%9C%9D%E6%9A%AE/">没有未来的未来不是未来</a>
-                        </div>
-                      
-                        
-                        <div class="timeline-item">
-                          <time>2020-04-09</time>
-                          <a target="_self" href="/2020/04/09/6%E5%8F%91%E5%B8%83%E6%96%87%E7%AB%A0/">发布文章</a>
-                        </div>
-                      
-                        
-                        <div class="timeline-item">
-                          <time>2020-04-09</time>
-                          <a target="_self" href="/2020/04/09/7%E9%99%84%E5%8A%A0%E5%8A%9F%E8%83%BD%EF%BC%88%E5%9B%BE%E7%89%87%E3%80%81%E9%9F%B3%E4%B9%90%E3%80%81%E8%AF%84%E8%AE%BA%EF%BC%89/">附加功能（图片、音乐、评论）</a>
-                        </div>
-                      
-                        
-                        <div class="timeline-item">
-                          <time>2020-04-08</time>
-                          <a target="_self" href="/2020/04/08/5%E6%9C%AC%E5%9C%B0%E4%B8%8A%E4%BC%A0%E8%87%B3G/">本地Blog迁移至Github及常见问题</a>
-                        </div>
-                      
-                        
-                        <div class="timeline-item">
-                          <time>2020-04-07</time>
-                          <a target="_self" href="/2020/04/07/4%E5%85%B3%E8%81%94%E6%9C%AC%E5%9C%B0Github/">Hexo与Github关联</a>
-                        </div>
-                      
-                        
-                        <div class="timeline-item">
-                          <time>2020-04-06</time>
-                          <a target="_self" href="/2020/04/06/3Github%E6%B3%A8%E5%86%8C/">GitHub创建个人仓库</a>
-                        </div>
-                      
-                        
-                        <div class="timeline-item">
-                          <time>2020-04-05</time>
-                          <a target="_self" href="/2020/04/05/2%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA/">Hexo本地搭建</a>
-                        </div>
-                      
-                    </div>
-                </div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://yoursite.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">Hexo与Github关联</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
             </div>
+            <div id="qr"></div>
         </div>
     </div>
+    <div class="scrollbar"></div>
 </div>
 
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Hexo与Github关联</h1>
+        <div class="stuff">
+            <span>四月 07, 2020</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <h1 id="1-绑定Hexo和Github"><a href="#1-绑定Hexo和Github" class="headerlink" title="1.绑定Hexo和Github"></a>1.绑定Hexo和Github</h1><p>打开blog文件夹中的_config.yml文件</p>
+<p>将最后一部分改为</p>
+<p>deploy:<br>          type:  git<br>          repo:  <a href="mailto:git@github.com">git@github.com</a>:username/username.github.io.git<br>          branch:  master</p>
+<h1 id="2-关联Hexo和Github–SSH密钥"><a href="#2-关联Hexo和Github–SSH密钥" class="headerlink" title="2.关联Hexo和Github–SSH密钥"></a>2.关联Hexo和Github–SSH密钥</h1><p>鼠标右键空白位置</p>
+<p>点击git bash</p>
+<p>在弹出的窗口中输入如下指令</p>
+<p><strong>ssh-keygen -t rsa</strong> </p>
+<p>一路回车</p>
+<p>这样便会在你的计算机中生成SSH密钥</p>
+<p>SSH密钥在与blog同一文件夹中的.ssh文件夹中</p>
+<p>进入.ssh文件夹点击id_rsa.pub文件（用记事本打开即可）</p>
+<p>复制文件中的内容</p>
+<p>进入<a href="https://github.com/" target="_blank" rel="noopener">Github</a></p>
+<h1 id="3-安装关联工具"><a href="#3-安装关联工具" class="headerlink" title="3.安装关联工具"></a>3.安装关联工具</h1><p>在blog文件夹下单机右键</p>
+<p>点击git bash</p>
+<p>在弹出来的命令框里面输入如下指令</p>
+<p><strong>npm install hexo-deployer-git –save</strong></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://link.hhtjim.com/163/1409249540.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://link.hhtjim.com/163/1350336761.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://link.hhtjim.com/163/545825923.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://link.hhtjim.com/163/539619640.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='false'
+        data-ci='c3450cd920580cc7819f'
+        data-cs='111992513f76f2b4471875b1d04d919f59be5009'
+        data-r='https://mitsuha1233.github.io/'
+        data-o='Mitsuha1233'
+        data-a='Mitsuha1233'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-绑定Hexo和Github"><span class="toc-number">1.</span> <span class="toc-text">1.绑定Hexo和Github</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-关联Hexo和Github–SSH密钥"><span class="toc-number">2.</span> <span class="toc-text">2.关联Hexo和Github–SSH密钥</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-安装关联工具"><span class="toc-number">3.</span> <span class="toc-text">3.安装关联工具</span></a></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
 </body>
 
 <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
