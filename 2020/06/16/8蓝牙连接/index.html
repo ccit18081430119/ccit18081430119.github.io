@@ -5,15 +5,15 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>8蓝牙连接 - Hexo</title>
+    <title>8网页蓝牙连接 - Hexo</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="Fechin,"> 
     <meta name="description" content="一、预备环境操作系统需要win10 1703以上版本
-插入BBC板子，将.hex文件直接拖到BBC板子里
-当再次插拔BBC板子，发现.hex文件消失了，这是正常现象。
-二、网页连接BBC板输入如下代,"> 
+插入BBC板子，将.hexo文件直接拖到BBC板子里
+当再次插拔BBC板子，发现.hexo文件消失了，这是正常现象。
+二、网页连接BBC板输入如,"> 
     <meta name="author" content="John Doe"> 
     <link rel="alternative" href="atom.xml" title="Hexo" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -43,7 +43,7 @@
     <div class="bar" style="width: 0;"></div>
     <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://yoursite.com"></a>
     <div title="播放/暂停" class="iconfont icon-play"></div>
-    <h3 class="subtitle">8蓝牙连接</h3>
+    <h3 class="subtitle">8网页蓝牙连接</h3>
     <div class="social">
         <div>
             <div class="share">
@@ -58,16 +58,16 @@
     <div class="section">
         <div class="article">
     <div class='main'>
-        <h1 class="title">8蓝牙连接</h1>
+        <h1 class="title">8网页蓝牙连接</h1>
         <div class="stuff">
-            <span>四月 10, 2020</span>
+            <span>六月 16, 2020</span>
             
 
         </div>
         <div class="content markdown">
             <h3 id="一、预备环境"><a href="#一、预备环境" class="headerlink" title="一、预备环境"></a>一、预备环境</h3><p>操作系统需要win10 1703以上版本</p>
-<p>插入BBC板子，将.hex文件直接拖到BBC板子里</p>
-<p>当再次插拔BBC板子，发现.hex文件消失了，这是正常现象。</p>
+<p>插入BBC板子，将.hexo文件直接拖到BBC板子里</p>
+<p>当再次插拔BBC板子，发现.hexo文件消失了，这是正常现象。</p>
 <h3 id="二、网页连接BBC板"><a href="#二、网页连接BBC板" class="headerlink" title="二、网页连接BBC板"></a>二、网页连接BBC板</h3><p>输入如下代码</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">function discoverDevices()</span><br><span class="line">        &#123; </span><br><span class="line">            console.log(&quot;discoverDevices&quot;);</span><br><span class="line">            var options &#x3D; &#123;acceptallDevices:true&#125;       &#x2F;&#x2F;发现所有周边蓝牙设备</span><br><span class="line">           </span><br><span class="line">            navigator.bluetooth.requestDevice(options)</span><br><span class="line">            .then(device &#x3D;&gt; &#123;</span><br><span class="line">                console.log(&#39;&gt; Name:&#39; + device.name);</span><br><span class="line">                console.log(&#39;&gt; Id:&#39; + device.id);</span><br><span class="line">                console.log(&#39;&gt; Connected:&#39; + device.gatt.connected);</span><br><span class="line">                selected_device &#x3D; device;</span><br><span class="line">                console.log(selected_device);</span><br><span class="line">                connect();</span><br><span class="line">                &#125;)</span><br><span class="line">            .catch(error &#x3D;&gt; &#123;</span><br><span class="line">                alert(&#39;ERROR&#39; +error);</span><br><span class="line">                console.log(&#39;ERROR&#39; +error);</span><br><span class="line">                &#125;);       </span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
 
@@ -76,7 +76,13 @@
 <p>function connect()<br>    {<br>        console.log(“connecting”);<br>        selected_device.gatt.connect()<br>        .then(<br>            function (server)<br>            {<br>                console.log(“Connected to” + server.device.id);<br>                console.log(“Connected “ + server.connected);<br>                selected_device.addEventListener(‘gattserverdisconnected’,onDisconnected);<br>                connected_server =server;<br>                setConnectedStatus(true);<br>            },<br>            function (error)<br>            {<br>                console.log(“ERROR:could not connct-“ + error);<br>               alert(“ERROR:could not connct-“ + error);<br>               setConnectedStatus(false);<br>            }<br>        );<br>    }</p>
 <h2 id="三、将代码用谷歌浏览器打开"><a href="#三、将代码用谷歌浏览器打开" class="headerlink" title="三、将代码用谷歌浏览器打开"></a>三、将代码用谷歌浏览器打开</h2><p>点击connect连接</p>
 <p>在出现的蓝牙设备中选择自己的BBC板子</p>
+<p><img src="/pic/t3.png" alt=""></p>
 <p>板子出现    C   就表示连接成功了</p>
+<p>效果图如下：</p>
+<p><img src="/pic/t1.png" alt=""></p>
+<p>如果连接不成功则为D</p>
+<p>效果图如下：</p>
+<p><img src="/pic/t2.png" alt=""></p>
 <h3 id="四、断开蓝牙设备"><a href="#四、断开蓝牙设备" class="headerlink" title="四、断开蓝牙设备"></a>四、断开蓝牙设备</h3><p>在原有代码加上下面代码</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;h2&gt;  Status</span><br><span class="line">      &lt;&#x2F;h2&gt;</span><br><span class="line">          &lt;table border&#x3D;&quot;1&quot;&gt;</span><br><span class="line">              &lt;tr&gt;</span><br><span class="line">                  &lt;td&gt;     &lt;b&gt;Connected&lt;&#x2F;b&gt;   &lt;&#x2F;td&gt;</span><br><span class="line">              &lt;&#x2F;tr&gt;</span><br><span class="line">              &lt;tr&gt;</span><br><span class="line">                  &lt;td id&#x3D;&quot;status_connected&quot;&gt; false &lt;&#x2F;td&gt;</span><br><span class="line">              &lt;&#x2F;tr&gt;</span><br><span class="line">          &lt;&#x2F;table&gt;</span><br><span class="line">          &lt;hr&gt;</span><br><span class="line">      &lt;h2&gt;</span><br></pre></td></tr></table></figure>
 
@@ -91,7 +97,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function setConnectedStatus(status)</span><br><span class="line">&#123;</span><br><span class="line">    connected&#x3D;status;</span><br><span class="line">    document.getElementById(&#39;status_connected&#39;).innerHTML &#x3D; status;</span><br><span class="line">    if(status&#x3D;&#x3D;true)</span><br><span class="line">    &#123;</span><br><span class="line">        document.getElementById(&#39;btn_scan&#39;).innerHTML &#x3D; &quot;Disconnect&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        document.getElementById(&#39;btn_scan&#39;).innerHTML &#x3D; &quot;Discover Devices&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>在网页连接BBC板子成功后点击disconnect就可以与板子断开连接了。</p>
-<p><img src="/pic/t1.png" alt="img"></p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
