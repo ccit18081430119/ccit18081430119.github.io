@@ -1,0 +1,389 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>服务特性 - Hexo</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="加以下代码：
+function discoverSvcsAndChars()  //在第5课基础上添加的函数
+  { 
+     console.log(&amp;quot;discoverSvcsAndC,"> 
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="Hexo" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Hexo</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://yoursite.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">服务特性</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">服务特性</h1>
+        <div class="stuff">
+            <span>六月 19, 2020</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <h2 id="加以下代码："><a href="#加以下代码：" class="headerlink" title="加以下代码："></a>加以下代码：</h2><ol>
+<li><pre><code>function discoverSvcsAndChars()  //在第5课基础上添加的函数
+  { 
+     console.log(&quot;discoverSvcsAndChars server=&quot; + connected_server); 
+     connected_server.getPrimaryServices()
+     .then(services =&gt; 
+     {  
+         has_accelerometer_service = false;  
+         has_led_service = false;  
+         has_device_information_service = false; 
+         has_temperature_service=false;
+         services_discovered = 0;  
+         service_count = services.length;  
+         console.log(&quot;Got &quot; + service_count + &quot; services&quot;); 
+
+         services.forEach(service =&gt; 
+         {   
+           if (service.uuid == ACCELEROMETER_SERVICE)
+           {   
+             has_accelerometer_service = true;  
+           }  
+           if (service.uuid == LED_SERVICE) 
+           {   
+             has_led_service = true;   
+           }   
+           if (service.uuid == DEVICE_INFORMATION_SERVICE) 
+           {   
+             has_device_information_service = true;   
+           } 
+           if (service.uuid == TEMPERATURE_SERVICE) //温度
+           {   
+             has_temperature_service = true;   
+           }    
+           console.log(&apos;Getting Characteristics for service &apos; + service.uuid);   
+           service.getCharacteristics()//获取服务里所包含的特性
+           .then(characteristics =&gt; 
+           {   
+             console.log(&apos;&gt; Service: &apos; + service.uuid);   
+             services_discovered++;   
+             characteristics_discovered = 0;   
+             characteristic_count = characteristics.length;   
+             characteristics.forEach(characteristic =&gt; 
+             {    
+               characteristics_discovered++;    
+               console.log(&apos;&gt;&gt; Characteristic: &apos; + characteristic.uuid);    
+               if (characteristic.uuid == ACCELEROMETER_DATA)
+               {    
+                 accelerometer_data = characteristic;    
+                 has_accelerometer_data = true;    
+                  }   
+               if (characteristic.uuid == LED_MATRIX_STATE) 
+               {    
+                 led_matrix_state = characteristic;    
+                 has_led_matrix_state = true;    
+               }    
+               if (characteristic.uuid == MODEL_NUMBER_STRING) 
+               {    
+                 model_number_string = characteristic;    
+                 has_model_name_string = true;    
+               }
+               if(characteristic.uuid == TEM_TEMPERATURE) //温度
+               {
+                 tem_temperature = characteristic; 
+                 has_tem_temperature = true;
+               }   
+               if (services_discovered == service_count &amp;&amp;            characteristics_discovered == characteristic_count) 
+               {    
+                 console.log(&quot;FINISHED DISCOVERY&quot;); 
+                 setDiscoveryStatus(true);    
+                 //setDiscoveryStatus(true);         
+               }  
+             });   
+           });  
+         }); 
+     });
+   }
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">如下代码块为3个服务以及服务号、3个特性以及特性号：</span><br></pre></td></tr></table></figure>
+// service UUIDs 
+       ACCELEROMETER_SERVICE = &apos;e95d0753-251d-470a-a062-fa1922dfa9a8&apos;; 
+       LED_SERVICE = &apos;e95dd91d-251d-470a-a062-fa1922dfa9a8&apos;; 
+       DEVICE_INFORMATION_SERVICE = &apos;0000180a-0000-1000-8000-00805f9b34fb&apos;;
+       TEMPERATURE_SERVICE =&apos;e95d6100-251d-470a-a062-fa1922dfa9a8&apos;; 
+ // characteristic UUIDs 
+       ACCELEROMETER_DATA = &apos;e95dca4b-251d-470a-a062-fa1922dfa9a8&apos;; 
+       LED_MATRIX_STATE  = &apos;e95d7b77-251d-470a-a062-fa1922dfa9a8&apos;; 
+       MODEL_NUMBER_STRING = &apos;00002a24-0000-1000-8000-00805f9b34fb&apos;;
+       TEM_TEMPERATURE =&apos;e95d9250-251d-470a-a062-fa1922dfa9a8&apos;;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2. 新增一个名为setDiscoveryStatus()的函数</span><br></pre></td></tr></table></figure>
+function setDiscoveryStatus(status)
+       {
+           services_discovered=status;
+           document.getElementById(&apos;status_discovered&apos;).innerHTML=status;
+       }
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   这样我们就可以在浏览器中查看Led服务及它的任意两个特性。</span><br><span class="line"></span><br><span class="line">## 查看特性</span><br><span class="line"></span><br><span class="line">打开谷歌浏览器</span><br><span class="line"></span><br><span class="line">通过网页连接BBC后按F12健</span><br><span class="line"></span><br><span class="line">就可以在弹出的界面中就能查看到服务特性![wd1](https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;Mitsuha1233&#x2F;cdn@6.0&#x2F;Pixv&#x2F;wd1.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## LED显示效果如下</span><br><span class="line"></span><br><span class="line">![](D:\blog\source\pic\t4.png)</span><br><span class="line"></span><br><span class="line">## 添加温度服务</span><br><span class="line"></span><br><span class="line">https:&#x2F;&#x2F;lancaster-university.github.io&#x2F;microbit-docs&#x2F;resources&#x2F;bluetooth&#x2F;bluet</span><br><span class="line"></span><br><span class="line">在如上网址中查找温度服务</span><br><span class="line"></span><br><span class="line">按CTRL+F快捷键 查找temperature</span><br><span class="line"></span><br><span class="line">就能显示相应的UUID</span><br><span class="line"></span><br><span class="line">在代码中添加</span><br></pre></td></tr></table></figure>
+var has_accelerometer_service = false; 
+var has_accelerometer_data = false; 
+var has_led_service = false;
+var has_led_matrix_state = false; 
+var has_led_text=false     //新加的led_text特性相关语句
+var has_device_information_service = false; 
+var has_model_name_string = false;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+// service UUIDs 
+ACCELEROMETER_SERVICE = &apos;e95d0753-251d-470a-a062-fa1922dfa9a8&apos;; 
+LED_SERVICE = &apos;e95dd91d-251d-470a-a062-fa1922dfa9a8&apos;; 
+DEVICE_INFORMATION_SERVICE = &apos;0000180a-0000-1000-8000-00805f9b34fb&apos;;
+// characteristic UUIDs 
+ACCELEROMETER_DATA = &apos;e95dca4b-251d-470a-a062-fa1922dfa9a8&apos;; 
+LED_MATRIX_STATE  = &apos;e95d7b77-251d-470a-a062-fa1922dfa9a8&apos;; 
+LED_TEXT=&apos;e95d93ee-251d-470a-a062-fa1922dfa9a8&apos;  //新加的led_text特性相关语句
+MODEL_NUMBER_STRING = &apos;00002a24-0000-1000-8000-00805f9b34fb&apos;;
+// cached characteristics var accelerometer_data; 
+var led_matrix_state; 
+var led_text;          //新加的led_text特性相关语句
+var model_number_string;
+var accelerometer_data;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+var options = {acceptAllDevices:true,
+            optionalServices: [DEVICE_INFORMATION_SERVICE, ACCELEROMETER_SERVICE, LED_SERVICE]  //在第5节课上添加
+        }
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+function discoverSvcsAndChars()    //在第5课基础上添加的函数
+    {  
+        console.log(&quot;discoverSvcsAndChars server=&quot; + connected_server); 
+        connected_server.getPrimaryServices()
+        .then(services =&gt; 
+        {    
+                has_accelerometer_service = false;    
+                has_led_service = false;    
+                has_device_information_service = false; 
+
+                services_discovered = 0;    
+                service_count = services.length;    
+                console.log(&quot;Got &quot; + service_count + &quot; services&quot;); 
+
+                services.forEach(service =&gt; 
+                {     
+                    if (service.uuid == ACCELEROMETER_SERVICE)
+                    {      
+                        has_accelerometer_service = true;    
+                    }   
+                    if (service.uuid == LED_SERVICE) 
+                    {      
+                        has_led_service = true;     
+                    }     
+                   if (service.uuid == DEVICE_INFORMATION_SERVICE) 
+                    {      
+                        has_device_information_service = true;     
+                    } 
+                    if (service.uuid == TEMPERATURE_SERVICE) //温度
+                    {      
+                        has_temperature_service = true;     
+                    }        
+                    console.log(&apos;Getting Characteristics for service &apos; + service.uuid);     
+                    service.getCharacteristics()
+                    .then(characteristics =&gt; 
+                    {      
+                        console.log(&apos;&gt; Service: &apos; + service.uuid);      
+                        services_discovered++;     
+                        characteristics_discovered = 0;      
+                        characteristic_count = characteristics.length;      
+                        characteristics.forEach(characteristic =&gt; 
+                        {       
+                            characteristics_discovered++;       
+                            console.log(&apos;&gt;&gt; Characteristic: &apos; + characteristic.uuid);       
+                            if (characteristic.uuid == ACCELEROMETER_DATA)
+                            {        
+                                accelerometer_data = characteristic;        
+                                has_accelerometer_data = true;       
+                            }      
+                            if (characteristic.uuid == LED_MATRIX_STATE) 
+                            {        
+                                led_matrix_state = characteristic;        
+                                has_led_matrix_state = true;       
+                            } 
+                            if (characteristic.uuid == LED_TEXT)    //新加的led_text特性相关语句
+                            {        
+                                led_text = characteristic;        
+                                has_led_text = true;       
+                            }       
+                            if (characteristic.uuid == MODEL_NUMBER_STRING) 
+                            {        
+                                model_number_string = characteristic;        
+                                has_model_name_string = true;       
+                            }
+                            if (services_discovered == service_count &amp;&amp; characteristics_discovered == characteristic_count) 
+                            {        
+                                console.log(&quot;FINISHED DISCOVERY&quot;); 
+                                setDiscoveryStatus(true);       
+                                //setDiscoveryStatus(true);                  
+                            }    
+                        });     
+                    });    
+                });  
+        });
+    }</code></pre></li>
+</ol>
+<h4 id="添加好代码后打开浏览器测试发现温度服务特性是找不到的"><a href="#添加好代码后打开浏览器测试发现温度服务特性是找不到的" class="headerlink" title="添加好代码后打开浏览器测试发现温度服务特性是找不到的"></a>添加好代码后打开浏览器测试发现温度服务特性是找不到的</h4><h5 id="原因是BBC板子本身没添加温度特性"><a href="#原因是BBC板子本身没添加温度特性" class="headerlink" title="原因是BBC板子本身没添加温度特性"></a>原因是BBC板子本身没添加温度特性</h5><h5 id="需要在如下网址中添加温度服务"><a href="#需要在如下网址中添加温度服务" class="headerlink" title="需要在如下网址中添加温度服务"></a>需要在如下网址中添加温度服务</h5><h5 id="https-makecode-microbit-org"><a href="#https-makecode-microbit-org" class="headerlink" title="https://makecode.microbit.org/"></a><a href="https://makecode.microbit.org/" target="_blank" rel="noopener">https://makecode.microbit.org/</a></h5><p><img src="https://cdn.jsdelivr.net/gh/Mitsuha1233/cdn@6.0/Pixv/wd2.png" alt="wd2"></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://link.hhtjim.com/163/1409249540.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://link.hhtjim.com/163/1350336761.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://link.hhtjim.com/163/545825923.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://link.hhtjim.com/163/539619640.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='false'
+        data-ci='c3450cd920580cc7819f'
+        data-cs='111992513f76f2b4471875b1d04d919f59be5009'
+        data-r='https://mitsuha1233.github.io/'
+        data-o='Mitsuha1233'
+        data-a='Mitsuha1233'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#加以下代码："><span class="toc-number">1.</span> <span class="toc-text">加以下代码：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#添加好代码后打开浏览器测试发现温度服务特性是找不到的"><span class="toc-number">1.0.1.</span> <span class="toc-text">添加好代码后打开浏览器测试发现温度服务特性是找不到的</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#原因是BBC板子本身没添加温度特性"><span class="toc-number">1.0.1.1.</span> <span class="toc-text">原因是BBC板子本身没添加温度特性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#需要在如下网址中添加温度服务"><span class="toc-number">1.0.1.2.</span> <span class="toc-text">需要在如下网址中添加温度服务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#https-makecode-microbit-org"><span class="toc-number">1.0.1.3.</span> <span class="toc-text">https:&#x2F;&#x2F;makecode.microbit.org&#x2F;</span></a></li></ol></li></ol></li></ol></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</html>
