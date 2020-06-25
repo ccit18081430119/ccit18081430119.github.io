@@ -1,0 +1,964 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>控制任意一个小灯 - Hexo</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="添加如下代码
+&amp;lt;html&amp;gt;
+    &amp;lt;head&amp;gt;
+        &amp;lt;script&amp;gt;
+        var c=[0, 0, 0, 0, 0, 0, 0, 0, ,"> 
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="Hexo" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Hexo</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://yoursite.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">控制任意一个小灯</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">控制任意一个小灯</h1>
+        <div class="stuff">
+            <span>六月 23, 2020</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <p>添加如下代码</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;script&gt;
+        var c=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        var    selected_device; //选择设备
+        var    connected_server; //连接设备
+        var    connected=false;//连接状态
+        var    services_discovered=false;//发现设备状态
+        // 添加服务和特性状态变量 
+        var has_accelerometer_service = false; //加速度服务状态
+        var has_accelerometer_data = false; //加速度特性状态
+        var has_led_service = false;//led服务状态
+        var has_led_matrix_state = false; //led控制特性状态
+        var has_device_information_service = false; //设备信息服务状态
+        var has_model_name_string = false; //设备信息特性状态
+        var has_temperature_service =false;    //温度服务状态
+        var has_tem_temperature = false;  //温度特性状态
+         // 服务 UUIDs 
+       ACCELEROMETER_SERVICE = &apos;e95d0753-251d-470a-a062-fa1922dfa9a8&apos;; 
+       LED_SERVICE = &apos;e95dd91d-251d-470a-a062-fa1922dfa9a8&apos;; 
+       DEVICE_INFORMATION_SERVICE = &apos;0000180a-0000-1000-8000-00805f9b34fb&apos;;
+       TEMPERATURE_SERVICE = &apos;e95d6100-251d-470a-a062-fa1922dfa9a8&apos;; 
+       // 特性 UUIDs 
+       ACCELEROMETER_DATA = &apos;e95dca4b-251d-470a-a062-fa1922dfa9a8&apos;; 
+       LED_MATRIX_STATE  = &apos;e95d7b77-251d-470a-a062-fa1922dfa9a8&apos;; 
+       MODEL_NUMBER_STRING = &apos;00002a24-0000-1000-8000-00805f9b34fb&apos;;
+       TEM_TEMPERATURE = &apos;e95d1b25-251d-470a-a062-fa1922dfa9a8&apos;;  
+       // 添加特性变量 
+       var led_matrix_state; 
+        var model_number_string;
+        var accelerometer_data;
+        var tem_temperature;    
+          //添加服务，特性相关参数
+        var service_count;
+         var services_discovered;
+         var characteristics_discovered;  
+         var characteristic_count ;      
+
+         function discoverOrdisconnectDevices()// 断开连接
+        {
+            console.log(&quot;discoverOrdisconnectDevices&quot;);
+            if(!connected)
+            discoverDevices();
+            else
+            {
+                selected_device.gatt.disconnect();
+            }
+        }
+
+        function onDisconnected()//连接
+        {
+            console.log(&quot;onDisconnected&quot;);
+            resetUI();
+        }
+        //function input.temperature(): number;
+        function discoverDevices()// 搜索设备函数
+        { 
+            console.log(&quot;discoverDevices&quot;);
+            var options = {acceptAllDevices:true,
+                optionalServices: [DEVICE_INFORMATION_SERVICE, ACCELEROMETER_SERVICE, LED_SERVICE,TEMPERATURE_SERVICE]  //在第5节课上添加
+            }        //发现所有周边蓝牙设备
+
+            navigator.bluetooth.requestDevice(options)
+            .then(device =&gt; {
+                console.log(&apos;&gt; Name:&apos; + device.name);
+                console.log(&apos;&gt; Id:&apos; + device.id);
+                console.log(&apos;&gt; Connected:&apos; + device.gatt.connected);
+                selected_device = device;
+                console.log(selected_device);
+                connect();
+                })
+            .catch(error =&gt; {
+                alert(&apos;ERROR&apos; +error);
+                console.log(&apos;ERROR&apos; +error);
+                });       
+        }       
+        function connect()    //连接函数
+        {
+            console.log(&quot;connecting&quot;);
+            selected_device.gatt.connect()
+            .then(
+                function (server)
+                {
+                    console.log(&quot;Connected to&quot; + server.device.id);
+                    console.log(&quot;Connected &quot; + server.connected);
+                    selected_device.addEventListener(&apos;gattserverdisconnected&apos;,onDisconnected);
+                    connected_server =server;
+                    discoverSvcsAndChars(); //在第5课基础上添加的函数
+                    setConnectedStatus(true);
+                },
+                function (error)
+                {
+                    console.log(&quot;ERROR:could not connct-&quot; + error);
+                   alert(&quot;ERROR:could not connct-&quot; + error);
+                   setConnectedStatus(false);
+                }
+            );
+        }
+        function setConnectedStatus(status)//设置连接状态
+        {
+            connected=status;
+            document.getElementById(&apos;status_connected&apos;).innerHTML = status;
+            if(status==true)
+            {
+                document.getElementById(&apos;btn_scan&apos;).innerHTML = &quot;Disconnect&quot;;
+            }
+            else
+            {
+                document.getElementById(&apos;btn_scan&apos;).innerHTML = &quot;Discover Devices&quot;;
+            }
+        }
+        function setDiscoveryStatus(status)//设置发现状态
+        {
+            services_discovered=status;
+            document.getElementById(&apos;status_discovered&apos;).innerHTML=status;
+        }
+
+        function resetUI()    //重置页面
+        {
+            setConnectedStatus(false);
+        }
+
+        function discoverSvcsAndChars()    //发现服务和特性
+        {  
+            console.log(&quot;discoverSvcsAndChars server=&quot; + connected_server); 
+            connected_server.getPrimaryServices()
+            .then(services =&gt; 
+            {    
+                    has_accelerometer_service = false;    
+                    has_led_service = false;    
+                    has_device_information_service = false; 
+                    has_temperature_service= false;
+
+                    services_discovered = 0;    
+                    service_count = services.length;    
+                    console.log(&quot;Got &quot; + service_count + &quot; services&quot;); 
+
+                    services.forEach(service =&gt; 
+                    {     
+                        if (service.uuid == ACCELEROMETER_SERVICE)
+                        {      
+                            has_accelerometer_service = true;    
+                        }   
+                        if (service.uuid == LED_SERVICE) 
+                        {      
+                            has_led_service = true;     
+                        }     
+                       if (service.uuid == DEVICE_INFORMATION_SERVICE) 
+                        {      
+                            has_device_information_service = true;     
+                        } 
+                        if (service.uuid == TEMPERATURE_SERVICE) //温度
+                        {      
+                            has_temperature_service = true;     
+                        }        
+                        console.log(&apos;Getting Characteristics for service &apos; + service.uuid);     
+                        service.getCharacteristics()
+                        .then(characteristics =&gt; 
+                        {      
+                            console.log(&apos;&gt; Service: &apos; + service.uuid);      
+                            services_discovered++;     
+                            characteristics_discovered = 0;      
+                            characteristic_count = characteristics.length;      
+                            characteristics.forEach(characteristic =&gt; 
+                            {       
+                                characteristics_discovered++;       
+                                console.log(&apos;&gt;&gt; Characteristic: &apos; + characteristic.uuid);       
+                                if (characteristic.uuid == ACCELEROMETER_DATA)
+                                {        
+                                    accelerometer_data = characteristic;        
+                                    has_accelerometer_data = true;       
+                                }      
+                                if (characteristic.uuid == LED_MATRIX_STATE) 
+                                {        
+                                    led_matrix_state = characteristic;        
+                                    has_led_matrix_state = true;       
+                                }       
+                                if (characteristic.uuid == MODEL_NUMBER_STRING) 
+                                {        
+                                    model_number_string = characteristic;        
+                                    has_model_name_string = true;       
+                                }
+                                if(characteristic.uuid == TEM_TEMPERATURE)  //温度
+                                {
+                                    tem_temperature = characteristic; 
+                                    has_tem_temperature = true;
+                                }     
+                                if (services_discovered == service_count &amp;&amp; characteristics_discovered == characteristic_count) 
+                                {        
+                                    console.log(&quot;FINISHED DISCOVERY&quot;); 
+                                    setDiscoveryStatus(true);       
+                                    //setDiscoveryStatus(true);                  
+                                }    
+                            });     
+                        });    
+                    });  
+            });
+        }  
+        var i=0,j=0;
+        function randomLEDs(ct)   //控制led
+        {  
+            console.log(&quot;randomLEDs&quot;);   
+            // state validation   
+            if (!connected) 
+            {     
+                alert(&quot;Error: Discover and connect to a device before using this function&quot;);     
+                return;   
+            }   
+            if (!services_discovered) 
+            {     
+                alert(&quot;Error: Service discovery has not yet completed&quot;);     
+                return;  
+            }   
+            if (!has_led_service) 
+            {     
+                alert(&quot;Error: The connected device does not contain the LED service&quot;);     
+                return;  
+            }   
+            if (!has_led_matrix_state) 
+            {      
+                alert(&quot;Error: The connected device does not contain the LED matrix state characteristic&quot;);      
+                return;   
+            }   
+            var led_array=[];
+            if(ct==0)
+            {
+                 led_array[0] =    1&lt;&lt;i;
+                 led_array[1] = 1&lt;&lt;i;   
+                 led_array[2] = 1&lt;&lt;i;   
+                 led_array[3] = 1&lt;&lt;i;   
+                 led_array[4] = 1&lt;&lt;i;
+                 i++;
+                 if(i==5)i=0;
+            }
+            else if(ct==1)
+            {
+                led_array[0] = 0;
+                led_array[1] = 0;   
+                led_array[2] = 0;   
+                led_array[3] = 0;   
+                led_array[4] = 0;
+                led_array[j] = 31;
+                j++;
+                if(j==5)j=0;
+            }
+
+
+             // Math.random():0~1  Math.floor(x):返回小于等于x的最大整数
+            /*led_array[0] =10;  
+            led_array[1] = 31;   
+            led_array[2] = 31;   
+            led_array[3] = 14;   
+            led_array[4] = 4;*/
+            /*led_array[0] = 31;  
+            led_array[1] = 17;   
+            led_array[2] = 17;   
+            led_array[3] = 17;   
+            led_array[4] = 31; */
+
+            var led_matrix_data = new Uint8Array(led_array); 
+
+            led_matrix_state.writeValue(led_matrix_data.buffer)
+            .then(_ =&gt; {   
+                console.log(&apos;LED matrix state changed&apos;);  
+                })  
+            .catch(error =&gt; {   
+                console.log(&apos;Error: &apos; + error);   
+                alert(&apos;Error: &apos; + error);   return;  
+                }); 
+        }  
+        function readModelNumber()  // 蓝牙信息服务
+        {  
+            console.log(&quot;readModelNumber&quot;);   
+            // state validation   
+            if (!connected) 
+            {     
+                alert(&quot;Error: Discover and connect to a device before using this function&quot;);     
+                return;   
+            }   
+            if (!services_discovered) 
+            {     
+                alert(&quot;Error: Service discovery has not yet completed&quot;);     
+                return;   
+            }    
+            if (!has_device_information_service) 
+            {     
+                alert(&quot;Error: The connected device does not contain the device information service&quot;);     
+                return;   
+            }   
+            if (!has_model_name_string) 
+            {     
+                alert(&quot;Error: The connected device does not contain the model name string characteristic&quot;);     
+                return;   
+            }   
+
+            model_number_string.readValue()
+            .then(value =&gt; {   
+                data = new Uint8Array(value.buffer);   
+                model_number_string = new TextDecoder(&quot;utf-8&quot;).decode(data);  
+                console.log(model_number_string);   
+                document.getElementById(&quot;model_number&quot;).innerHTML = model_number_string;  
+                })  
+            .catch(error =&gt; {  
+                console.log(&apos;Error: &apos; + error);   
+                alert(&apos;Error: &apos; + error);   
+                return;  
+                }); 
+            }
+
+                  function accelerometer()   //加速度传感器
+                 {  
+                     console.log(&quot;accelerometer&quot;);   
+                     // state validation   
+                     if (!connected) 
+                     {     
+                         alert(&quot;Error: Discover and connect to a device before using this function&quot;);     
+                         return;   
+                     }   
+                     if (!services_discovered) 
+                     {     
+                         alert(&quot;Error: Service discovery has not yet completed&quot;);     
+                         return;  
+                     }   
+                     if (!has_accelerometer_service) 
+                     {     
+                         alert(&quot;Error: The connected device does not contain the accelerometer service&quot;);     
+                         return;  
+                     }   
+                     if (!has_accelerometer_data) 
+                     {      
+                         alert(&quot;Error: The connected device does not contain the accelerometer_data characteristic&quot;);      
+                         return;   
+                     }   
+
+                     accelerometer_data.readValue()
+                    .then(value =&gt; {
+                      buffer = value.buffer;
+                      dataview = new DataView(buffer);
+                      X = dataview.getUint16(0, true);
+                      Y = dataview.getUint16(2, true);
+                      Z = dataview.getUint16(4, true);
+                      console.log(&quot;X=&quot; + X + &quot;, Y=&quot; + Y + &quot;, Z+&quot; + Z);
+                      document.getElementById(&quot;ac_data&quot;).innerHTML = &quot;X=&quot; + X + &quot;, Y=&quot; + Y + &quot;,Z=&quot; + Z;
+                        })  
+                    .catch(error =&gt; {  
+                        console.log(&apos;Error: &apos; + error);   
+                        alert(&apos;Error: &apos; + error);   
+                        return;  
+                        }); 
+
+
+                 }  
+
+                 function led00()              //第一行
+       {
+           if(c[0]==0)
+           {
+               led[0]=led[0]|(1&lt;&lt;4);
+               c[0]=1;
+           }
+           else{
+               led[0]=led[0]&amp;(~(1&lt;&lt;4));
+               c[0]=0;
+           }
+           randLED();
+       }
+
+       function led01()
+       {
+           if(c[1]==0)
+           {
+               led[0]=led[0]|(1&lt;&lt;3);
+               c[1]=1;
+           }
+           else{
+               led[0]=led[0]&amp;(~(1&lt;&lt;3));
+               c[1]=0;
+           }
+           randLED();
+       }
+
+       function led02()
+       {
+           if(c[2]==0)
+           {
+               led[0]=led[0]|(1&lt;&lt;2);
+               c[2]=1;
+           }
+           else{
+               led[0]=led[0]&amp;(~(1&lt;&lt;2));
+               c[2]=0;
+           }
+           randLED();
+       }
+
+       function led03()
+       {
+           if(c[3]==0)
+           {
+               led[0]=led[0]|(1&lt;&lt;1);
+               c[3]=1;
+           }
+           else{
+               led[0]=led[0]&amp;(~(1&lt;&lt;1));
+               c[3]=0;
+           }
+           randLED();
+       }
+
+       function led04()
+       {
+           if(c[4]==0)
+           {
+               led[0]=led[0]|(1&lt;&lt;0);
+               c[4]=1;
+           }
+           else{
+               led[0]=led[0]&amp;(~(1&lt;&lt;0));
+               c[4]=0;
+           }
+           randLED();
+       }
+
+       function led10()                   //第二行
+       {
+           if(c[5]==0)
+           {
+               led[1]=led[1]|(1&lt;&lt;4);
+               c[5]=1;
+           }
+           else{
+               led[1]=led[1]&amp;(~(1&lt;&lt;4));
+               c[5]=0;
+           }
+           randLED();
+       }
+
+       function led11()
+       {
+           if(c[6]==0)
+           {
+               led[1]=led[1]|(1&lt;&lt;3);
+               c[6]=1;
+           }
+           else{
+               led[1]=led[1]&amp;(~(1&lt;&lt;3));
+               c[6]=0;
+           }
+           randLED();
+       }
+
+       function led12()
+       {
+           if(c[7]==0)
+           {
+               led[1]=led[1]|(1&lt;&lt;2);
+               c[7]=1;
+           }
+           else{
+               led[1]=led[1]&amp;(~(1&lt;&lt;2));
+               c[7]=0;
+           }
+           randLED();
+       }
+
+       function led13()
+       {
+           if(c[8]==0)
+           {
+               led[1]=led[1]|(1&lt;&lt;1);
+               c[8]=1;
+           }
+           else{
+               led[1]=led[1]&amp;(~(1&lt;&lt;1));
+               c[8]=0;
+           }
+           randLED();
+       }
+
+       function led14()
+       {
+           if(c[9]==0)
+           {
+               led[1]=led[1]|(1&lt;&lt;0);
+               c[9]=1;
+           }
+           else{
+               led[1]=led[1]&amp;(~(1&lt;&lt;0));
+               c[9]=0;
+           }
+           randLED();
+       }
+
+       function led20()                   //第三行
+      {
+          if(c[10]==0)
+          {
+              led[2]=led[2]|(1&lt;&lt;4);
+              c[10]=1;
+          }
+          else{
+              led[2]=led[2]&amp;(~(1&lt;&lt;4));
+              c[10]=0;
+          }
+          randLED();
+      }
+
+      function led21()
+      {
+          if(c[11]==0)
+          {
+              led[2]=led[2]|(1&lt;&lt;3);
+              c[11]=1;
+          }
+          else{
+              led[2]=led[2]&amp;(~(1&lt;&lt;3));
+              c[11]=0;
+          }
+          randLED();
+      }
+
+      function led22()
+      {
+          if(c[12]==0)
+          {
+              led[2]=led[2]|(1&lt;&lt;2);
+              c[12]=1;
+          }
+          else{
+              led[2]=led[2]&amp;(~(1&lt;&lt;2));
+              c[12]=0;
+          }
+          randLED();
+      }
+
+      function led23()
+      {
+          if(c[13]==0)
+          {
+              led[2]=led[2]|(1&lt;&lt;1);
+              c[13]=1;
+          }
+          else{
+              led[2]=led[2]&amp;(~(1&lt;&lt;1));
+              c[13]=0;
+          }
+          randLED();
+      }
+
+      function led24()
+      {
+          if(c[14]==0)
+          {
+              led[2]=led[2]|(1&lt;&lt;0);
+              c[14]=1;
+          }
+          else{
+              led[2]=led[2]&amp;(~(1&lt;&lt;0));
+              c[14]=0;
+          }
+          randLED();
+      }
+
+      function led30()                   //第四行
+       {
+           if(c[15]==0)
+           {
+               led[3]=led[3]|(1&lt;&lt;4);
+               c[15]=1;
+           }
+           else{
+               led[3]=led[3]&amp;(~(1&lt;&lt;4));
+               c[15]=0;
+           }
+           randLED();
+       }
+
+       function led31()
+       {
+           if(c[16]==0)
+           {
+               led[3]=led[3]|(1&lt;&lt;3);
+               c[16]=1;
+           }
+           else{
+               led[3]=led[3]&amp;(~(1&lt;&lt;3));
+               c[16]=0;
+           }
+           randLED();
+       }
+
+       function led32()
+       {
+           if(c[17]==0)
+           {
+               led[3]=led[3]|(1&lt;&lt;2);
+               c[17]=1;
+           }
+           else{
+               led[3]=led[3]&amp;(~(1&lt;&lt;2));
+               c[17]=0;
+           }
+           randLED();
+       }
+
+       function led33()
+       {
+           if(c[18]==0)
+           {
+               led[3]=led[3]|(1&lt;&lt;1);
+               c[18]=1;
+           }
+           else{
+               led[3]=led[3]&amp;(~(1&lt;&lt;1));
+               c[18]=0;
+           }
+           randLED();
+       }
+
+       function led34()
+       {
+           if(c[19]==0)
+           {
+               led[3]=led[3]|(1&lt;&lt;0);
+               c[19]=1;
+           }
+           else{
+               led[3]=led[3]&amp;(~(1&lt;&lt;0));
+               c[19]=0;
+           }
+           randLED();
+       }
+
+       function led40()                   //第五行
+       {
+           if(c[20]==0)
+           {
+               led[4]=led[4]|(1&lt;&lt;4);
+               c[20]=1;
+           }
+           else{
+               led[4]=led[4]&amp;(~(1&lt;&lt;4));
+               c[20]=0;
+           }
+           randLED();
+       }
+
+       function led41()
+       {
+           if(c[21]==0)
+           {
+               led[4]=led[4]|(1&lt;&lt;3);
+               c[21]=1;
+           }
+           else{
+               led[4]=led[4]&amp;(~(1&lt;&lt;3));
+               c[21]=0;
+           }
+           randLED();
+       }
+
+       function led42()
+       {
+           if(c[22]==0)
+           {
+               led[4]=led[4]|(1&lt;&lt;2);
+               c[22]=1;
+           }
+           else{
+               led[4]=led[4]&amp;(~(1&lt;&lt;2));
+               c[22]=0;
+           }
+           randLED();
+       }
+
+       function led43()
+       {
+           if(c[23]==0)
+           {
+               led[4]=led[4]|(1&lt;&lt;1);
+               c[23]=1;
+           }
+           else{
+               led[4]=led[4]&amp;(~(1&lt;&lt;1));
+               c[23]=0;
+           }
+           randLED();
+       }
+
+       function led44()
+       {
+           if(c[24]==0)
+           {
+               led[4]=led[4]|(1&lt;&lt;0);
+               c[24]=1;
+           }
+           else{
+               led[4]=led[4]&amp;(~(1&lt;&lt;0));
+               c[24]=0;
+           }
+           randLED();
+       }
+
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h2&gt;  Status
+        &lt;/h2&gt;
+            &lt;table border=&quot;1&quot;&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;     &lt;b&gt;Connected&lt;/b&gt;   &lt;/td&gt;
+                    &lt;td&gt;     &lt;b&gt;Service Discovery Completed&lt;/b&gt;   &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;td id=&quot;status_connected&quot;&gt; false &lt;/td&gt;
+                    &lt;td id=&quot;status_discovered&quot;&gt; false &lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;/table&gt;
+            &lt;hr&gt;
+        &lt;h2&gt;
+            Device Discovery or Disconnect
+        &lt;/h2&gt;
+        &lt;button id = &quot;btn_scan&quot; onclick=&quot;discoverOrdisconnectDevices()&quot;&gt;Start scan&lt;/button&gt;
+        &lt;hr&gt;
+        &lt;h2&gt;Reading and Writing&lt;/h2&gt;
+        &lt;h3&gt;Write Characteristic - Randomise Lights&lt;/h3&gt;  
+        &lt;button id=&quot;btn_write&quot; onclick=&quot;randomLEDs(0)&quot;&gt;控制led行&lt;/button&gt;
+        &lt;button id=&quot;btu_write&quot; onclick=&quot;randomLEDs(1)&quot;&gt;控制led列&lt;/button&gt;
+        &lt;h3&gt;Read Characteristic - Model number&lt;/h3&gt;  
+        &lt;button id=&quot;btn_read&quot; onclick=&quot;readModelNumber()&quot;&gt;Read Model number&lt;/button&gt; 
+        &lt;div id=&quot;model_number&quot;&gt;&lt;/div&gt;
+        &lt;h3&gt;accelerometer_data&lt;/h3&gt;
+        &lt;button id=&quot;btn_readAC&quot; onclick=&quot;accelerometer()&quot;&gt;Read accelerometer_data&lt;/button&gt; 
+        &lt;div id=&quot;ac_data&quot;&gt;&lt;/div&gt;
+        &lt;hr&gt;
+        &lt;h3&gt;控制单个小灯亮暗&lt;/h3&gt; 
+       &lt;button id=&quot;led00&quot; onclick=&quot;led00()&quot;&gt;第一行第一列&lt;/button&gt;
+       &lt;button id=&quot;led01&quot; onclick=&quot;led01()&quot;&gt;第一行第二列&lt;/button&gt;
+       &lt;button id=&quot;led02&quot; onclick=&quot;led02()&quot;&gt;第一行第三列&lt;/button&gt;
+       &lt;button id=&quot;led03&quot; onclick=&quot;led03()&quot;&gt;第一行第四列&lt;/button&gt;
+       &lt;button id=&quot;led04&quot; onclick=&quot;led04()&quot;&gt;第一行第五列&lt;/button&gt;
+       &lt;br&gt;
+       &lt;button id=&quot;led10&quot; onclick=&quot;led10()&quot;&gt;第二行第一列&lt;/button&gt;
+       &lt;button id=&quot;led11&quot; onclick=&quot;led11()&quot;&gt;第二行第二列&lt;/button&gt;
+       &lt;button id=&quot;led12&quot; onclick=&quot;led12()&quot;&gt;第二行第三列&lt;/button&gt;
+       &lt;button id=&quot;led13&quot; onclick=&quot;led13()&quot;&gt;第二行第四列&lt;/button&gt;
+       &lt;button id=&quot;led14&quot; onclick=&quot;led14()&quot;&gt;第二行第五列&lt;/button&gt;
+       &lt;br&gt;
+       &lt;button id=&quot;led20&quot; onclick=&quot;led20()&quot;&gt;第三行第一列&lt;/button&gt;
+       &lt;button id=&quot;led21&quot; onclick=&quot;led21()&quot;&gt;第三行第二列&lt;/button&gt;
+       &lt;button id=&quot;led22&quot; onclick=&quot;led22()&quot;&gt;第三行第三列&lt;/button&gt;
+       &lt;button id=&quot;led23&quot; onclick=&quot;led23()&quot;&gt;第三行第四列&lt;/button&gt;
+       &lt;button id=&quot;led24&quot; onclick=&quot;led24()&quot;&gt;第三行第五列&lt;/button&gt;
+       &lt;br&gt;
+       &lt;button id=&quot;led30&quot; onclick=&quot;led30()&quot;&gt;第四行第一列&lt;/button&gt;
+       &lt;button id=&quot;led31&quot; onclick=&quot;led31()&quot;&gt;第四行第二列&lt;/button&gt;
+       &lt;button id=&quot;led32&quot; onclick=&quot;led32()&quot;&gt;第四行第三列&lt;/button&gt;
+       &lt;button id=&quot;led33&quot; onclick=&quot;led33()&quot;&gt;第四行第四列&lt;/button&gt;
+       &lt;button id=&quot;led34&quot; onclick=&quot;led34()&quot;&gt;第四行第五列&lt;/button&gt;
+       &lt;br&gt;
+       &lt;button id=&quot;led40&quot; onclick=&quot;led40()&quot;&gt;第五行第一列&lt;/button&gt;
+       &lt;button id=&quot;led41&quot; onclick=&quot;led41()&quot;&gt;第五行第二列&lt;/button&gt;
+       &lt;button id=&quot;led42&quot; onclick=&quot;led42()&quot;&gt;第五行第三列&lt;/button&gt;
+       &lt;button id=&quot;led43&quot; onclick=&quot;led43()&quot;&gt;第五行第四列&lt;/button&gt;
+       &lt;button id=&quot;led44&quot; onclick=&quot;led44()&quot;&gt;第五行第五列&lt;/button&gt;
+
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre><p>效果图如下</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Mitsuha1233/cdn@9.0/Pixv/xxxx.png" alt="YK12"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://link.hhtjim.com/163/1409249540.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://link.hhtjim.com/163/1350336761.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://link.hhtjim.com/163/545825923.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://link.hhtjim.com/163/539619640.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='false'
+        data-ci='c3450cd920580cc7819f'
+        data-cs='111992513f76f2b4471875b1d04d919f59be5009'
+        data-r='https://mitsuha1233.github.io/'
+        data-o='Mitsuha1233'
+        data-a='Mitsuha1233'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+				
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</html>
